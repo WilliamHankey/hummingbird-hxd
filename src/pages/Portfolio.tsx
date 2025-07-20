@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Filter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -11,6 +12,7 @@ const Portfolio = () => {
 
   const projects = [
     {
+      id: "bloom-botanicals",
       title: "Bloom Botanicals",
       category: "E-commerce",
       colors: ["#77cebb", "#c1a5b4", "#fee1a3"],
@@ -19,6 +21,7 @@ const Portfolio = () => {
       results: "40% increase in conversion rate, 65% boost in time on site"
     },
     {
+      id: "azure-consulting",
       title: "Azure Consulting",
       category: "Professional Services",
       colors: ["#4a90e2", "#77cebb", "#f8f9fa"],
@@ -27,14 +30,16 @@ const Portfolio = () => {
       results: "3x increase in consultation bookings, improved brand perception"
     },
     {
+      id: "sunset-cafe",
       title: "Sunset Cafe",
-      category: "Restaurant", 
+      category: "Restaurant",
       colors: ["#fee1a3", "#ff6b6b", "#c1a5b4"],
       description: "Cozy restaurant using warm, appetite-enhancing colors to create inviting atmosphere",
       features: ["Menu display", "Online reservations", "Event bookings"],
       results: "25% increase in online reservations, higher customer engagement"
     },
     {
+      id: "mindful-therapy",
       title: "Mindful Therapy",
       category: "Healthcare",
       colors: ["#c1a5b4", "#e8f4f8", "#77cebb"],
@@ -43,6 +48,7 @@ const Portfolio = () => {
       results: "50% increase in appointment bookings, improved client trust"
     },
     {
+      id: "creative-studio-co",
       title: "Creative Studio Co",
       category: "Agency",
       colors: ["#77cebb", "#fee1a3", "#c1a5b4"],
@@ -51,6 +57,7 @@ const Portfolio = () => {
       results: "200% increase in project inquiries, enhanced brand recognition"
     },
     {
+      id: "novatech-solutions",
       title: "NovaTech Solutions",
       category: "Technology",
       colors: ["#6c5ce7", "#77cebb", "#2d3436"],
@@ -59,6 +66,7 @@ const Portfolio = () => {
       results: "150% increase in demo requests, improved conversion funnel"
     },
     {
+      id: "artisan-bakery",
       title: "Artisan Bakery",
       category: "Restaurant",
       colors: ["#fee1a3", "#d4a574", "#8b4513"],
@@ -67,6 +75,7 @@ const Portfolio = () => {
       results: "35% increase in online orders, expanded customer base"
     },
     {
+      id: "wellness-center",
       title: "Wellness Center",
       category: "Healthcare",
       colors: ["#77cebb", "#b8e6d3", "#ffffff"],
@@ -75,6 +84,7 @@ const Portfolio = () => {
       results: "60% increase in class bookings, improved member retention"
     },
     {
+      id: "fashion-boutique",
       title: "Fashion Boutique",
       category: "E-commerce",
       colors: ["#c1a5b4", "#f5f5f5", "#2c2c2c"],
@@ -133,7 +143,8 @@ const Portfolio = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 overflow-hidden">
+              <Link key={index} to={`/case-study/${project.id}`}>
+                <Card className="group hover:shadow-xl transition-all duration-300 border-0 overflow-hidden cursor-pointer">
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                   {/* Color Palette Display */}
                   <div className="absolute inset-0 flex">
@@ -191,6 +202,7 @@ const Portfolio = () => {
                   </div>
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         </div>
