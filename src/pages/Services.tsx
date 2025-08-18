@@ -7,62 +7,61 @@ const Services = () => {
   const services = [
     {
       icon: Monitor,
-      title: "Wix Website Design",
-      description: "Complete custom website design and development on the Wix platform",
+      title: "Website Design",
+      description: "Complete custom website design and development.",
       features: [
         "Custom design tailored to your brand",
-        "Mobile-responsive layouts", 
-        "SEO optimization",
-        "E-commerce integration",
-        "Content management setup",
-        "Performance optimization"
+        "Mobile-ready and user-friendly layouts", 
+        "Engaging copy written for clarity and trust",
+        "SEO foundations to help you get found",
+        "Easy integrations (e.g. bookings, forms, payments)",
+        "Basic on-site analytics setup"
       ],
-      price: "Starting at $2,500",
+      price: "Starting at R5,750",
       color: "mint-teal"
     },
     {
       icon: Palette,
-      title: "Color Strategy Consulting",
-      description: "Deep-dive sessions to identify your perfect brand color palette",
+      title: "Service Design",
+      description: "Smarter ways of working, shaped around your customers and goals.",
       features: [
-        "Color psychology analysis",
-        "Target audience research",
-        "Brand personality assessment",
-        "Custom palette creation",
-        "Usage guidelines",
-        "Competitor analysis"
+        "Look at how your business runs day to day",
+        "Review how customers experience your service",
+        "Find what's causing delays or confusion",
+        "Suggest ways of doing things",
+        "Prioritise what to fix first",
+        "Get a simple plan you can act onCompetitor analysis"
       ],
-      price: "Starting at $800",
+      price: "Starting at R20,000 p/m",
       color: "soft-mauve"
     },
     {
       icon: Lightbulb,
-      title: "Brand Identity Design",
-      description: "Complete visual identity system built around strategic color choices",
+      title: "Digital Integration",
+      description: "Simple tools and smooth systems to support how you work.",
       features: [
-        "Logo design & variations",
-        "Color palette development",
-        "Typography selection",
-        "Brand guidelines document",
-        "Business card design",
-        "Social media templates"
+        "Review your current tools",
+        "Recommend better-fit options",
+        "Prioritise what matters most",
+        "Turn scattered tools into a smooth system",
+        "Help with setup and integration",
+        "Support through the change"
       ],
-      price: "Starting at $1,800",
+      price: "Starting at R15,000 p/m",
       color: "creamy-apricot"
     },
     {
       icon: Zap,
-      title: "UX/UI Optimization",
-      description: "Enhance existing websites using color psychology principles",
+      title: "AI Integration",
+      description: "Use AI in practical ways to save time and do more with less",
       features: [
-        "User experience audit",
-        "Conversion rate analysis",
-        "Color-driven improvements",
-        "A/B testing setup",
-        "Performance metrics",
-        "Ongoing optimization"
+        "Look at how your business runs day to day",
+        "Identify bottlenecks and frustrations",
+        "Formulate practical ways to use AI day to day",
+        "Help with setup and first use",
+        "Support to build your confidence"
       ],
-      price: "Starting at $1,200",
+      price: "Starting at R15,000",
       color: "mint-teal"
     }
   ];
@@ -110,7 +109,7 @@ const Services = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 gradient-mint-mauve opacity-5"></div>
@@ -307,10 +306,7 @@ const Services = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-mint-teal hover:bg-mint-teal-dark text-white">
-              Book Free Consultation
-            </Button>
-            <Button size="lg" variant="outline" className="border-mint-teal text-mint-teal hover:bg-mint-teal hover:text-white">
-              View Portfolio
+              Get Started
             </Button>
           </div>
         </div>

@@ -4,99 +4,48 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCaseStudies } from "@/hooks/use-sanity";
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const { data: caseStudies, isLoading, error } = useCaseStudies();
 
-  const categories = ["All", "E-commerce", "Professional Services", "Restaurant", "Healthcare", "Agency", "Technology"];
+  // Extract unique categories from case studies
+  const categories = caseStudies 
+    ? ["All", ...new Set(caseStudies.map(cs => cs.category).filter(Boolean))]
+    : ["All", "E-commerce", "Professional Services", "Restaurant", "Healthcare", "Agency", "Technology"];
 
-  const projects = [
-    {
-      id: "bloom-botanicals",
-      title: "Bloom Botanicals",
-      category: "E-commerce",
-      colors: ["#77cebb", "#c1a5b4", "#fee1a3"],
-      description: "Natural skincare brand with earthy, calming palette designed to evoke trust and wellness",
-      features: ["Product catalog", "Shopping cart", "Brand storytelling"],
-      results: "40% increase in conversion rate, 65% boost in time on site"
-    },
-    {
-      id: "azure-consulting",
-      title: "Azure Consulting",
-      category: "Professional Services",
-      colors: ["#4a90e2", "#77cebb", "#f8f9fa"],
-      description: "Professional consulting firm using trust-building blues with mint accents",
-      features: ["Service showcase", "Team profiles", "Client testimonials"],
-      results: "3x increase in consultation bookings, improved brand perception"
-    },
-    {
-      id: "sunset-cafe",
-      title: "Sunset Cafe",
-      category: "Restaurant",
-      colors: ["#fee1a3", "#ff6b6b", "#c1a5b4"],
-      description: "Cozy restaurant using warm, appetite-enhancing colors to create inviting atmosphere",
-      features: ["Menu display", "Online reservations", "Event bookings"],
-      results: "25% increase in online reservations, higher customer engagement"
-    },
-    {
-      id: "mindful-therapy",
-      title: "Mindful Therapy",
-      category: "Healthcare",
-      colors: ["#c1a5b4", "#e8f4f8", "#77cebb"],
-      description: "Mental health practice using soothing mauve and teal for emotional comfort",
-      features: ["Service information", "Therapist bios", "Appointment booking"],
-      results: "50% increase in appointment bookings, improved client trust"
-    },
-    {
-      id: "creative-studio-co",
-      title: "Creative Studio Co",
-      category: "Agency",
-      colors: ["#77cebb", "#fee1a3", "#c1a5b4"],
-      description: "Design agency showcasing full brand palette to demonstrate creative versatility",
-      features: ["Portfolio showcase", "Service descriptions", "Creative process"],
-      results: "200% increase in project inquiries, enhanced brand recognition"
-    },
-    {
-      id: "novatech-solutions",
-      title: "NovaTech Solutions",
-      category: "Technology",
-      colors: ["#6c5ce7", "#77cebb", "#2d3436"],
-      description: "Tech startup using modern purple and teal for innovation and reliability",
-      features: ["Product demos", "Pricing tiers", "Customer testimonials"],
-      results: "150% increase in demo requests, improved conversion funnel"
-    },
-    {
-      id: "artisan-bakery",
-      title: "Artisan Bakery",
-      category: "Restaurant",
-      colors: ["#fee1a3", "#d4a574", "#8b4513"],
-      description: "Local bakery using warm, earthy tones to convey handcrafted quality",
-      features: ["Product gallery", "Online ordering", "Catering services"],
-      results: "35% increase in online orders, expanded customer base"
-    },
-    {
-      id: "wellness-center",
-      title: "Wellness Center",
-      category: "Healthcare",
-      colors: ["#77cebb", "#b8e6d3", "#ffffff"],
-      description: "Holistic wellness center using calming greens and whites for serenity",
-      features: ["Class schedules", "Practitioner profiles", "Membership options"],
-      results: "60% increase in class bookings, improved member retention"
-    },
-    {
-      id: "fashion-boutique",
-      title: "Fashion Boutique",
-      category: "E-commerce",
-      colors: ["#c1a5b4", "#f5f5f5", "#2c2c2c"],
-      description: "High-end fashion retailer using sophisticated mauve with elegant neutrals",
-      features: ["Product catalog", "Style guides", "Personal shopping"],
-      results: "80% increase in average order value, enhanced brand prestige"
-    }
-  ];
+  // Filter case studies based on selected category
+  const filteredCaseStudies = selectedCategory === "All" 
+    ? caseStudies 
+    : caseStudies?.filter(cs => cs.category === selectedCategory);
 
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mint-teal mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading portfolio...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center">
+            <p className="text-red-600">Error loading portfolio: {error.message}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-16">
@@ -141,70 +90,84 @@ const Portfolio = () => {
       {/* Projects Grid */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <Link key={index} to={`/case-study/${project.id}`}>
-                <Card className="group hover:shadow-xl transition-all duration-300 border-0 overflow-hidden cursor-pointer">
-                <div className="h-48 relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                  {/* Color Palette Display */}
-                  <div className="absolute inset-0 flex">
-                    {project.colors.map((color, colorIndex) => (
-                      <div
-                        key={colorIndex}
-                        className="flex-1 transition-all duration-300 group-hover:scale-105"
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <ExternalLink className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 text-mint-teal text-xs font-medium px-2 py-1 rounded-full">
-                      {project.category}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-4 left-4 flex space-x-1">
-                    {project.colors.map((color, colorIndex) => (
-                      <div
-                        key={colorIndex}
-                        className="w-4 h-4 rounded-full border-2 border-white shadow-md"
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-serif font-semibold text-gray-900 mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  <div className="mb-4">
-                    <h4 className="font-medium text-gray-900 mb-2 text-sm">Key Features:</h4>
-                    <ul className="text-xs text-gray-600 space-y-1">
-                      {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center space-x-2">
-                          <div className="w-1 h-1 bg-mint-teal rounded-full"></div>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          {filteredCaseStudies && filteredCaseStudies.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredCaseStudies.map((caseStudy, index) => (
+                <Link key={caseStudy._id || index} to={`/case-study/${caseStudy.slug?.current}`}>
+                  <Card className="group hover:shadow-xl transition-all duration-300 border-0 overflow-hidden cursor-pointer">
+                    <div className="h-48 relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                      {/* Color Palette Display */}
+                      {caseStudy.colorPalette && caseStudy.colorPalette.length > 0 ? (
+                        <div className="absolute inset-0 flex">
+                          {caseStudy.colorPalette.map((colorInfo, colorIndex) => (
+                            <div
+                              key={colorIndex}
+                              className="flex-1 transition-all duration-300 group-hover:scale-105"
+                              style={{ backgroundColor: colorInfo.color }}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-mint-teal to-soft-mauve opacity-20" />
+                      )}
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <ExternalLink className="h-8 w-8 text-white" />
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-white/90 text-mint-teal text-xs font-medium px-2 py-1 rounded-full">
+                          {caseStudy.category || "Case Study"}
+                        </span>
+                      </div>
+                      <div className="absolute bottom-4 left-4 flex space-x-1">
+                        {caseStudy.colorPalette?.map((colorInfo, colorIndex) => (
+                          <div
+                            key={colorIndex}
+                            className="w-4 h-4 rounded-full border-2 border-white shadow-md"
+                            style={{ backgroundColor: colorInfo.color }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <CardContent className="p-6">
+                      <h3 className="text-xl font-serif font-semibold text-gray-900 mb-2">
+                        {caseStudy.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                        {caseStudy.description}
+                      </p>
+                      
+                      {caseStudy.features && caseStudy.features.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="font-medium text-gray-900 mb-2 text-sm">Key Features:</h4>
+                          <ul className="text-xs text-gray-600 space-y-1">
+                            {caseStudy.features.slice(0, 3).map((feature, featureIndex) => (
+                              <li key={featureIndex} className="flex items-center space-x-2">
+                                <div className="w-1 h-1 bg-mint-teal rounded-full"></div>
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
-                  <div className="border-t pt-4">
-                    <h4 className="font-medium text-gray-900 mb-1 text-sm">Results:</h4>
-                    <p className="text-xs text-mint-teal font-medium">
-                      {project.results}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              </Link>
-            ))}
-          </div>
+                      {caseStudy.results && (
+                        <div className="border-t pt-4">
+                          <h4 className="font-medium text-gray-900 mb-1 text-sm">Results:</h4>
+                          <p className="text-xs text-mint-teal font-medium">
+                            {caseStudy.results}
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No case studies found for this category.</p>
+            </div>
+          )}
         </div>
       </section>
 
